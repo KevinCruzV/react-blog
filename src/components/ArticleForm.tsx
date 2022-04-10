@@ -1,57 +1,70 @@
-import React from 'react'
 
-class ArticleForm extends React.Component<{}, {title: string, content: string}> {
-    constructor(props: any) {
-        super(props);
-        this.state = {
-            title: '',
-            content: ''
+import React, {useState} from "react";
+
+
+export default function Form() {
+
+
+
+    const [title, setTitle] = useState<string>('');
+    const [content, setContent] = useState<string>('');
+
+
+    const TitleChange = (e:any) => {
+        console.log(e.target.value)
+        setTitle(e.target.value);
+    };
+
+
+    const ContentChange = (e:any) => {
+        console.log(e.target.value)
+        setContent(e.target.value);
+    };
+
+    const HandleSubmit = (e:any) => {
+        console.log('Title: ' + title, 'Content: ' + content);
+        
+        let newPost = {
+            title: title,
+            content: content
+            }
+
+        let data = JSON.stringify(newPost);
+    
+        const headers = new Headers({
+            'Content-type': 'application/x-www-form-urlencoded'
+        });
+    
+        const requestOptions = {
+            headers: headers,
+            method: "POST",
+            body: data,
         };
-
-    this.handleChangeTitle = this.handleChangeTitle.bind(this);
-    this.handleChangeContent= this.handleChangeContent.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-
-    }
-
-    handleChangeTitle(event: any) {
-        this.setState({title: event.target.value});
-      }
-
-    handleChangeContent(event: any) {
-    this.setState({content: event.target.value});
+    
+        fetch('http://localhost:2345/src/Controllers/CreatePostController.php', requestOptions)
+        .then(response => console.log(response.status))
+        
     }
     
-    handleSubmit(event: any) {
-    console.log('Title: ' + this.state.title, 'Content: ' + this.state.content);
-    event.preventDefault();
-    const newPost = {
-        title: this.state.title,
-        content: this.state.content
-        }
-    }
 
-    render() {
-        return (
-            <form style={{maxWidth: "18rem"}} onSubmit={this.handleSubmit} >
-                <div className="card bg-light mb-3">
-                    <div className="card-header" style={{color: "black"}}>
+
+    return (
+        <form style={{maxWidth: "18rem"}} onSubmit={HandleSubmit} >
+            <div className="card bg-light mb-3">
+                <div className="card-header" style={{color: "black"}}>
                     <div className="form-group">
                         <label style={{paddingRight: "1rem"}}>Title</label>
-                        <input onChange={this.handleChangeTitle} type="text" className="form-controle" placeholder="Write your title here..."></input>
+                        <input onChange={TitleChange} type="text" className="form-controle" placeholder="Write your title here..."></input>
                     </div>
                 </div>
                 <div className="card-body">
-                <div className="form-group">
-                    <label>Content</label>
-                    <textarea value={this.state.content} onChange={this.handleChangeContent} style={{resize: "none"}} className="form-control" id="exampleFormControlTextarea1" rows={3} placeholder="Write your post here..."></textarea>
+                    <div className="form-group">
+                        <label>Content</label>
+                        <textarea value={content} onChange={ContentChange} style={{resize: "none"}} className="form-control" id="exampleFormControlTextarea1" rows={3} placeholder="Write your post here..."></textarea>
+                    </div>
+                    <button type="submit" className="btn btn-primary">Post</button>
                 </div>
-                    <button type={"submit"} className="btn btn-primary">Post</button>
-                </div>
-                </div>
-            </form>
-        )
-    }
+            </div>
+        </form>
+    )
 }
-
-export default ArticleForm

@@ -1,9 +1,16 @@
-export default function ArticleCard(props: any) {
+interface CardPropsInterface {
+    title: string
+    content: string
+}
+
+
+
+export default function ArticleCard({title, content}: CardPropsInterface) {
     return (
     <div className="card bg-light mb-3" style={{maxWidth: "18rem"}}>
-        <div className="card-header" style={{color: "black"}}>{props.title}</div>
+        <div className="card-header" style={{color: "black"}}>{title}</div>
         <div className="card-body">
-        <p className="card-text" style={{color: "black"}}>{props.content}</p>
+        <p className="card-text" style={{color: "black"}}>{content}</p>
       </div>
     </div>
     )
