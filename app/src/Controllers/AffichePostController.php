@@ -19,14 +19,14 @@ use App\Manager\PostManager;
 
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 
-$users = new PostManager((new PDOFactory())->getMysqlConnection());
+$postmanager = new PostManager((new PDOFactory())->getMysqlConnection());
 
 
 if(strtoupper($requestMethod) == "GET")
 
 {
 
-    $users->getAllPosts();
+    $postmanager->getAllPosts();
 
 }    
 

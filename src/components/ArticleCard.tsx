@@ -1,6 +1,6 @@
 interface CardPropsInterface {
-    title: string
-    content: string
+    title: object
+    content: object
 }
 
 

@@ -5,7 +5,7 @@ import { useState } from "react"
 
 
 //Composant pour le formulaire 
-export default function LoginForm(){
+export default function CreateForm(){
     const [username, setUsername] = useState<string>('');
     const [pass, setPass] = useState<string>('');
     const [token, setToken] = useState<string>('');
@@ -17,7 +17,6 @@ export default function LoginForm(){
 
         return result1;
     }
-
 
 
     // 
@@ -52,7 +51,7 @@ export default function LoginForm(){
     
 
       
-        fetch('http://localhost:2345/src/Controllers/UserController.php', {
+        fetch('http://localhost:2345/src/Controllers/CreateUserController.php', {
             method: 'GET',
             headers : headers,
             body: body,
@@ -69,13 +68,12 @@ export default function LoginForm(){
     
     return(
         <form className="mx-auto" style={{maxWidth:"350px"}} onSubmit={handleSubmit}>
-            <h1 className="text-center mb-3">Sign-in</h1>
-            <label htmlFor="username">Username :</label>
+            <h1 className="text-center mb-3">Sign-up</h1>
+            <label htmlFor="username">Saisie un pseudo</label>
             <input type="text" name="username" className="form-control" value={username} onChange={handleChange1}/>
-            <label htmlFor="password">Password :</label>
+            <label htmlFor="password">Saisie un mot de passe :</label>
             <input type="password" name="pass" className="form-control"value={pass} onChange={handleChange2} />
             <button type="submit" className="btn btn-primary">Envoyer</button>
-            <button className="btn btn-primary">Sign-Up</button>
         </form>
     )
 };

@@ -44,6 +44,43 @@ class UserManager extends BaseManager
 
 
 
+    public function getUserByToken($token): array
+    {
+
+        try {
+            $stmt = "SELECT * FROM user WHERE token=:token";
+            $query = $this->db->prepare($stmt);
+
+            $query->execute(array(
+                ':token' => $token
+            ));
+            return $query->fetchAll(\PDO::FETCH_ASSOC);
+
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+
+    }
+
+    public function getTokenByUser($username): array
+    {
+
+        try {
+            $stmt = "SELECT token FROM user WHERE username=:username";
+            $query = $this->db->prepare($stmt);
+
+            $query->execute(array(
+                ':username' => $username
+            ));
+            return $query->fetchAll(\PDO::FETCH_ASSOC);
+
+        } catch (Exception $e) {
+            die($e->getMessage());
+        }
+
+    }
+
+
     /**
      * @param User $user
      * @return bool

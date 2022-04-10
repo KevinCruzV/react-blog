@@ -20,21 +20,34 @@ use App\Manager\UserManager;
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 
 $users = new UserManager((new PDOFactory())->getMysqlConnection());
+$data = json_decode(file_get_contents("php://input"));
 
+$token = $users->getTokenByUser($data->username);
 
 if(strtoupper($requestMethod) == "GET")
 
 {
 
-    $users->getAllUsers();
+
+   if(($log['username'] == $data->username) && ($log['pass'] == $data->pass) ){
+
+    $_SESSION["token"] = $token;
+    http_response_code(200);
+
+   }
+
+   else{
+    http_response_code(405);
+    echo "persone";
+   }
 
 }    
 
 else {
 
-    http_response_code(405);
+    http_response_code(500);
     echo "Method Not Allowed";
-    die();
+    
 
 }
 
